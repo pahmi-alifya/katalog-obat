@@ -32,7 +32,11 @@ const StackNavigator = () => {
         component={LoginScreen}
         options={{ headerShown: false }}
       />
-      <RootStack.Screen name="Home" component={HomeScreen} />
+      <RootStack.Screen
+        name="Home"
+        component={HomeScreen}
+        options={{ headerShown: false }}
+      />
       <RootStack.Screen name="Profile" component={ProfileScreen} />
       <RootStack.Screen name="Content" component={ContentScreen} />
       <RootStack.Screen name="MedicineGroup" component={MedicineGroupScreen} />
