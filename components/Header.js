@@ -41,10 +41,9 @@ const Header = () => {
         <Input
           placeholder="Cari"
           variant="filled"
-          bg="gray.200"
+          background="gray.200"
           borderRadius="10"
           placeholderTextColor="gray.500"
-          _hover={{ bg: "gray.200", borderWidth: 0 }}
           py="1"
           px="2"
           fontSize="14"
@@ -68,5 +67,6 @@ export default Header;
 const styles = StyleSheet.create({
   container: {
     justifyContent: "space-between",
+    paddingTop: hp("5%"),
   },
 });
