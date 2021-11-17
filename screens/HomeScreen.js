@@ -14,23 +14,15 @@ import {
   View,
   VStack,
 } from "native-base";
-import React, { useLayoutEffect, useState } from "react";
+import React, { useEffect, useLayoutEffect, useState } from "react";
 import { FontAwesome } from "@expo/vector-icons";
 import { SafeAreaView, StyleSheet, TouchableOpacity } from "react-native";
 import { heightPercentageToDP as hp } from "react-native-responsive-screen";
 import Header from "../components/Header";
 import { Colors } from "../constants/style";
+import { useIsFocused } from "@react-navigation/core";
 
-const HomeScreen = ({ navigation }) => {
-  // useLayoutEffect(() => {
-  //   navigation.setOptions({
-  //     title: "HOME",
-  //     headerStyle: { backgroundColor: Colors.primary },
-  //     headerTitleStyle: { color: "white" },
-  //     headerTitleAlign: "center",
-  //     headerTintColor: "white",
-  //   });
-  // }, [navigation]);
+const HomeScreen = ({ navigation, route }) => {
   const data = [
     "narkotika",
     "narkotika1",
@@ -38,10 +30,12 @@ const HomeScreen = ({ navigation }) => {
     "narkotika3",
     "narkotika4",
   ];
+  const isFocused = useIsFocused();
   const [active, setActive] = useState("narkotika");
+
   return (
-    <ScrollView>
-      <SafeAreaView style={styles.container}>
+    <SafeAreaView style={styles.container}>
+      <ScrollView showsVerticalScrollIndicator={false}>
         <Header />
         <VStack>
           <Heading
@@ -58,6 +52,7 @@ const HomeScreen = ({ navigation }) => {
               horizontal
               showsHorizontalScrollIndicator={false}
               data={data}
+              keyExtractor={(item) => item}
               renderItem={({ item }) => (
                 <TouchableOpacity
                   activeOpacity={0.5}
@@ -431,31 +426,33 @@ const HomeScreen = ({ navigation }) => {
               </HStack>
             </VStack>
           </VStack>
+          <Box position="relative" h={50} w="100%">
+            <Fab
+              position="absolute"
+              renderInPortal={isFocused ? true : false}
+              size="sm"
+              icon={
+                <Icon
+                  color="white"
+                  as={<FontAwesome name="sort-alpha-asc" />}
+                  size="sm"
+                />
+              }
+            />
+          </Box>
         </VStack>
-        <Box position="relative" h={50} w="100%">
-          <Fab
-            position="absolute"
-            size="sm"
-            icon={
-              <Icon
-                color="white"
-                as={<FontAwesome name="sort-alpha-asc" />}
-                size="sm"
-              />
-            }
-          />
-        </Box>
-      </SafeAreaView>
-    </ScrollView>
+      </ScrollView>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: hp("3%"),
-    marginTop: hp("5%"),
-    // justifyContent: "center",
+    paddingHorizontal: hp("3%"),
+    paddingTop: hp("3%"),
+    marginTop: hp("1%"),
+    justifyContent: "center",
   },
 });
 

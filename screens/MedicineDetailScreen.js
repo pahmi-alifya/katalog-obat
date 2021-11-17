@@ -1,4 +1,4 @@
-import { Avatar, Heading, ScrollView, View, VStack } from "native-base";
+import { Avatar, Heading, Image, ScrollView, View, VStack } from "native-base";
 import React, { useLayoutEffect } from "react";
 import { SafeAreaView, StyleSheet } from "react-native";
 import { heightPercentageToDP as hp } from "react-native-responsive-screen";
@@ -13,16 +13,15 @@ const MedicineDetailScreen = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.image}>
-        <Avatar
-          bg="cyan.500"
-          size="40"
-          shadow="9"
+        <Image
+          size="full"
+          style={{ zIndex: 99 }}
           source={{
-            uri: "https://pbs.twimg.com/profile_images/1309797238651060226/18cm6VhQ_400x400.jpg",
+            uri: "https://www.holidify.com/images/cmsuploads/compressed/Bangalore_citycover_20190613234056.jpg",
           }}
-        >
-          Obat
-        </Avatar>
+          resizeMode="center"
+          alt="image"
+        />
         <View style={styles.biodata}>
           <ScrollView
             style={{ alignSelf: "flex-start" }}
@@ -99,7 +98,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     height: hp("100%"),
     width: hp("70%"),
-    marginTop: -hp("10%"),
+    marginTop: -hp("7%"),
     backgroundColor: "white",
     // borderTopLeftRadius: hp("25%"),
     borderRadius: hp("30%"),
