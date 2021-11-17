@@ -14,11 +14,14 @@ export const postLogin = (params) => (dispatch) =>
       .post("masuk", params)
       .then(({ data }) => {
         dispatch({ type: commonActionTypes.HIEDE_LOADING });
-        if (data) {
+        console.log(data);
+        if (data && data?.status === true) {
           dispatch({
             type: userActionTypes.POST_LOGIN,
             payload: data,
           });
+          resolve(data);
+        } else {
           resolve(data);
         }
         dispatch({ type: commonActionTypes.HIEDE_LOADING });
