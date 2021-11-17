@@ -17,21 +17,38 @@ import { FontAwesome5 } from "@expo/vector-icons";
 
 import { Colors } from "../constants/style";
 import Logo from "../assets/icon.png";
+import { connect } from "react-redux";
+import { postLogin } from "../redux/actions/user";
+import { ResponseModal } from "../components/ResponseModal";
 
-const LoginScreen = ({ navigation }) => {
+const LoginScreen = ({ navigation, loading, postLogin }) => {
   const [showPassword, setShowPassword] = useState(true);
   const [value, setValue] = useState(null);
+  const [showModal, setShowModal] = useState(false);
+  const [data, setData] = useState(false);
 
   const handleChangeInput = (data, name) => {
     setValue({ ...value, [name]: data });
   };
 
   const signIn = () => {
-    navigation.navigate("Home");
+    postLogin(value).then((data) => {
+      if (data.status === true) {
+        alert("Berhasil Login");
+      } else {
+        setData(data);
+        setShowModal(true);
+      }
+    });
   };
 
   return (
     <ScrollView backgroundColor={Colors.white}>
+      <ResponseModal
+        showModal={showModal}
+        setShowModal={(value) => setShowModal(value)}
+        {...data}
+      />
       <SafeAreaView style={styles.container}>
         <View style={styles.logo}>
           <Image source={Logo} alt="Logo" size="xl" />
@@ -88,7 +105,9 @@ const LoginScreen = ({ navigation }) => {
             <Button
               _text={{ color: "white" }}
               onPress={signIn}
-              // isLoading={loading}
+              isLoading={loading}
+              size="md"
+              bgColor={Colors.primary}
             >
               MASUK
             </Button>
@@ -104,7 +123,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    padding: hp("5%"),
+    padding: hp("4%"),
     marginTop: hp("10%"),
   },
   logo: {
@@ -115,4 +134,13 @@ const styles = StyleSheet.create({
   },
 });
 
-export default LoginScreen;
+const mapStateToProps = ({ common }) => {
+  const { loading } = common;
+  return {
+    loading,
+  };
+};
+
+export default connect(mapStateToProps, {
+  postLogin,
+})(LoginScreen);

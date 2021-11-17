@@ -1,15 +1,32 @@
 import { Avatar, VStack, View, Heading } from "native-base";
 import React, { useLayoutEffect } from "react";
-import { SafeAreaView, StyleSheet, Text } from "react-native";
+import { SafeAreaView, StyleSheet, TouchableOpacity } from "react-native";
+import { AntDesign } from "@expo/vector-icons";
 import { heightPercentageToDP as hp } from "react-native-responsive-screen";
+import { connect } from "react-redux";
 import { Colors } from "../constants/style";
+import { postLogout } from "../redux/actions/user";
 
-const ProfileScreen = ({ navigation }) => {
+const ProfileScreen = ({ navigation, loading, postLogout }) => {
   useLayoutEffect(() => {
     navigation.setOptions({
       title: "Profil",
+      headerRight: () => (
+        <View style={{ marginRight: 5 }}>
+          <TouchableOpacity activeOpacity={0.5} onPress={signOut}>
+            <AntDesign name="logout" size={26} color={Colors.dark} />
+          </TouchableOpacity>
+        </View>
+      ),
     });
   }, [navigation]);
+
+  const signOut = () => {
+    console.log("test2");
+    alert("Logout Berhasil!");
+    postLogout();
+    // navigation.navigate("Login");
+  };
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.image}>
@@ -77,8 +94,6 @@ const ProfileScreen = ({ navigation }) => {
   );
 };
 
-export default ProfileScreen;
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -108,3 +123,14 @@ const styles = StyleSheet.create({
     },
   },
 });
+
+const mapStateToProps = ({ common }) => {
+  const { loading } = common;
+  return {
+    loading,
+  };
+};
+
+export default connect(mapStateToProps, {
+  postLogout,
+})(ProfileScreen);
