@@ -4,9 +4,12 @@ import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import { Avatar, HStack, Icon, Input, VStack, Heading } from "native-base";
 import { heightPercentageToDP as hp } from "react-native-responsive-screen";
+import { useSelector } from "react-redux";
 
 const Header = () => {
   const navigation = useNavigation();
+  const dataUser = useSelector((state) => state.user?.user);
+
   return (
     <>
       <HStack space={3} style={styles.container}>
@@ -20,7 +23,7 @@ const Header = () => {
             Selamat Datang,
           </Heading>
           <Heading size="sm" mb={2} color="dark.400">
-            Admin
+            {dataUser?.nama_user}
           </Heading>
         </VStack>
         <TouchableOpacity
@@ -28,12 +31,13 @@ const Header = () => {
           onPress={() => navigation.navigate("Profile")}
         >
           <Avatar
-            bg="cyan.500"
+            shadow="5"
+            size="md"
             source={{
-              uri: "https://pbs.twimg.com/profile_images/1309797238651060226/18cm6VhQ_400x400.jpg",
+              uri: dataUser?.photo,
             }}
           >
-            GG
+            Foto
           </Avatar>
         </TouchableOpacity>
       </HStack>
