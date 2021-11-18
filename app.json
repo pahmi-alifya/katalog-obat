@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "katalog-obat",
+    "name": "katalog Obat",
     "slug": "katalog-obat",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -23,7 +23,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "package": "com.pahmi1998.katalogobat"
     },
     "web": {
       "favicon": "./assets/favicon.png"

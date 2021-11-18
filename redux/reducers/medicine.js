@@ -37,6 +37,7 @@ export default (state = initialState, action) => {
       return {
         ...state,
         medicineSubCategory: [],
+        medicineContentDetail: null,
         medicineContent: response,
       };
     }
@@ -44,6 +45,7 @@ export default (state = initialState, action) => {
       const response = action.payload.data;
       return {
         ...state,
+        medicineSubCategory: [],
         medicineContentDetail: response,
       };
     }

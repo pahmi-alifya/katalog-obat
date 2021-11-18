@@ -57,7 +57,7 @@ const HomeScreen = ({
     getMedicineCategory();
     getMedicineContent();
     setActive(null);
-  }, [route?.name]);
+  }, [route?.name, navigation]);
 
   const colorLabel = (color) => {
     switch (color) {
@@ -257,6 +257,7 @@ const HomeScreen = ({
                       <Box>
                         <AspectRatio w="100%">
                           <Image
+                            key={item?.id_obat}
                             source={{
                               uri:
                                 item?.foto_obat ??

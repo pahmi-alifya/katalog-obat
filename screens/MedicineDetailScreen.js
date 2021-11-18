@@ -1,3 +1,4 @@
+import { useIsFocused } from "@react-navigation/core";
 import {
   Avatar,
   Heading,
@@ -29,9 +30,13 @@ const MedicineDetailScreen = ({
     });
   }, [navigation]);
 
+  const isFocused = useIsFocused();
+
   useEffect(() => {
-    getMedicineContentDetail(route?.params?.id);
-  }, [route?.name, navigation]);
+    if (isFocused) {
+      getMedicineContentDetail(route?.params?.id);
+    }
+  }, [isFocused, route?.name]);
 
   if (loading) {
     return (
@@ -51,15 +56,14 @@ const MedicineDetailScreen = ({
   }
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.image}>
+      <View style={styles.picture}>
         <Image
-          size="full"
-          style={{ zIndex: 2 }}
-          onLoad={loading}
+          size="40"
+          style={{ zIndex: 99 }}
+          key={medicineContentDetail?.foto_obat}
           source={{
-            uri: medicineContentDetail.foto_obat,
+            uri: `${medicineContentDetail?.foto_obat}`,
           }}
-          resizeMode="center"
           alt="image"
         />
         <View style={styles.biodata}>
@@ -139,7 +143,7 @@ const styles = StyleSheet.create({
     flex: 1,
     marginBottom: hp("2%"),
   },
-  image: {
+  picture: {
     alignItems: "center",
     backgroundColor: Colors.primary,
     width: "100%",
