@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigation } from "@react-navigation/core";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
@@ -6,9 +6,14 @@ import { Avatar, HStack, Icon, Input, VStack, Heading } from "native-base";
 import { heightPercentageToDP as hp } from "react-native-responsive-screen";
 import { useSelector } from "react-redux";
 
-const Header = () => {
+const Header = ({ isSearch }) => {
   const navigation = useNavigation();
   const dataUser = useSelector((state) => state.user?.user);
+
+  const onSearch = (text) => {
+    if (!text) isSearch(false);
+    isSearch(text);
+  };
 
   return (
     <>
@@ -51,6 +56,7 @@ const Header = () => {
           py="1"
           px="2"
           fontSize="14"
+          onChangeText={(text) => onSearch(text)}
           InputLeftElement={
             <Icon
               m="2"

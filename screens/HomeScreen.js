@@ -50,6 +50,8 @@ const HomeScreen = ({
   const isFocused = useIsFocused();
   const [active, setActive] = useState(null);
   const [subCategoryActive, setSubCategoryActive] = useState(null);
+  const [isSearch, setISearch] = useState(false);
+  const [sorting, setSorting] = useState(false);
 
   useEffect(() => {
     getMedicineCategory();
@@ -84,27 +86,18 @@ const HomeScreen = ({
     getMedicineSubCategoryContent({ sub_kategori: id });
   };
 
-  // if (loading) {
-  //   return (
-  //     <Modal isOpen={loading}>
-  //       <Modal.Content maxWidth="150px">
-  //         <Modal.Body>
-  //           <HStack space={2} alignSelf="center">
-  //             <Spinner accessibilityLabel="Loading posts" />
-  //             <Heading color="primary.500" fontSize="md">
-  //               Loading
-  //             </Heading>
-  //           </HStack>
-  //         </Modal.Body>
-  //       </Modal.Content>
-  //     </Modal>
-  //   );
-  // }
-  console.log(medicineSubCategoryContent);
+  useEffect(() => {
+    getMedicineContent({
+      search: isSearch,
+      sort: sorting ? "desc" : "asc",
+      category: active,
+    });
+  }, [isSearch, sorting]);
+
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView showsVerticalScrollIndicator={false}>
-        <Header />
+        <Header isSearch={(value) => setISearch(value)} />
         <VStack>
           <Heading
             size="md"
@@ -116,45 +109,47 @@ const HomeScreen = ({
             Jenis Obat
           </Heading>
           <VStack space={2}>
-            <FlatList
-              horizontal
-              showsHorizontalScrollIndicator={false}
-              data={medicineCategory}
-              keyExtractor={(item) => item?.id_kategori}
-              renderItem={({ item, index }) => (
-                <TouchableOpacity
-                  activeOpacity={0.5}
-                  onPress={() => getContentMedicine(item?.id_kategori)}
-                >
-                  <View style={{ padding: 10 }}>
-                    {(active ? item?.id_kategori === active : index === 0) ? (
-                      <View
-                        style={{
-                          backgroundColor: colorLabel(item.label),
-                          padding: 7,
-                          paddingHorizontal: 15,
-                          borderRadius: 10,
-                        }}
-                      >
-                        <Heading
-                          size="sm"
-                          style={{ fontWeight: "300" }}
-                          color="white"
+            {!isSearch && (
+              <FlatList
+                horizontal
+                showsHorizontalScrollIndicator={false}
+                data={medicineCategory}
+                keyExtractor={(item) => item?.id_kategori}
+                renderItem={({ item, index }) => (
+                  <TouchableOpacity
+                    activeOpacity={0.5}
+                    onPress={() => getContentMedicine(item?.id_kategori)}
+                  >
+                    <View style={{ padding: 8 }}>
+                      {(active ? item?.id_kategori === active : index === 0) ? (
+                        <View
+                          style={{
+                            backgroundColor: colorLabel(item.label),
+                            padding: 7,
+                            paddingHorizontal: 15,
+                            borderRadius: 10,
+                          }}
                         >
-                          {item?.nama_kategori}
-                        </Heading>
-                      </View>
-                    ) : (
-                      <View mt={1}>
-                        <Heading size="sm" style={{ fontWeight: "300" }}>
-                          {item?.nama_kategori}
-                        </Heading>
-                      </View>
-                    )}
-                  </View>
-                </TouchableOpacity>
-              )}
-            />
+                          <Heading
+                            size="sm"
+                            style={{ fontWeight: "300" }}
+                            color="white"
+                          >
+                            {item?.nama_kategori}
+                          </Heading>
+                        </View>
+                      ) : (
+                        <View mt={1}>
+                          <Heading size="sm" style={{ fontWeight: "300" }}>
+                            {item?.nama_kategori}
+                          </Heading>
+                        </View>
+                      )}
+                    </View>
+                  </TouchableOpacity>
+                )}
+              />
+            )}
             <FlatList
               showsHorizontalScrollIndicator={false}
               horizontal
@@ -189,6 +184,11 @@ const HomeScreen = ({
               numColumns={2}
               data={medicineContent}
               refreshing={loading}
+              ListEmptyComponent={() => (
+                <Heading size="md" textAlign="center" mt={3}>
+                  Data tidak ada
+                </Heading>
+              )}
               keyExtractor={(item) => item?.id_obat}
               renderItem={({ item, index }) => {
                 if (loading) {
@@ -241,7 +241,8 @@ const HomeScreen = ({
                       overflow="hidden"
                       shadow="1"
                       mx={1}
-                      mb={2}
+                      mb={3}
+                      ml={1}
                       borderColor="coolGray.200"
                       width={hp("21%")}
                       borderWidth="1"
@@ -305,6 +306,7 @@ const HomeScreen = ({
             <Fab
               position="absolute"
               renderInPortal={isFocused ? true : false}
+              onPress={() => setSorting(!sorting)}
               size="sm"
               icon={
                 <Icon
@@ -328,6 +330,7 @@ const styles = StyleSheet.create({
     paddingTop: hp("3%"),
     marginTop: hp("1%"),
     justifyContent: "center",
+    backgroundColor: "white",
   },
 });
 
