@@ -1,23 +1,63 @@
-import { Avatar, Heading, Image, ScrollView, View, VStack } from "native-base";
-import React, { useLayoutEffect } from "react";
+import {
+  Avatar,
+  Heading,
+  HStack,
+  Image,
+  Modal,
+  ScrollView,
+  Spinner,
+  View,
+  VStack,
+} from "native-base";
+import React, { useEffect, useLayoutEffect } from "react";
 import { SafeAreaView, StyleSheet } from "react-native";
 import { heightPercentageToDP as hp } from "react-native-responsive-screen";
+import { connect } from "react-redux";
 import { Colors } from "../constants/style";
+import { getMedicineContentDetail } from "../redux/actions/medicine";
 
-const MedicineDetailScreen = ({ navigation }) => {
+const MedicineDetailScreen = ({
+  navigation,
+  route,
+  getMedicineContentDetail,
+  medicineContentDetail,
+  loading,
+}) => {
   useLayoutEffect(() => {
     navigation.setOptions({
       title: "Detail Obat",
     });
   }, [navigation]);
+
+  useEffect(() => {
+    getMedicineContentDetail(route?.params?.id);
+  }, [route?.name, navigation]);
+
+  if (loading) {
+    return (
+      <Modal isOpen={loading}>
+        <Modal.Content maxWidth="150px">
+          <Modal.Body>
+            <HStack space={2} alignSelf="center">
+              <Spinner accessibilityLabel="Loading posts" />
+              <Heading color="primary.500" fontSize="md">
+                Loading
+              </Heading>
+            </HStack>
+          </Modal.Body>
+        </Modal.Content>
+      </Modal>
+    );
+  }
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.image}>
         <Image
           size="full"
-          style={{ zIndex: 99 }}
+          style={{ zIndex: 2 }}
+          onLoad={loading}
           source={{
-            uri: "https://www.holidify.com/images/cmsuploads/compressed/Bangalore_citycover_20190613234056.jpg",
+            uri: medicineContentDetail.foto_obat,
           }}
           resizeMode="center"
           alt="image"
@@ -43,7 +83,7 @@ const MedicineDetailScreen = ({ navigation }) => {
                   color="dark.300"
                   style={{ fontWeight: "bold" }}
                 >
-                  Admin
+                  {medicineContentDetail?.nama_obat}
                 </Heading>
               </VStack>
               <VStack space={1} mt={3}>
@@ -56,12 +96,12 @@ const MedicineDetailScreen = ({ navigation }) => {
                   color="dark.300"
                   style={{ fontWeight: "bold" }}
                 >
-                  Admin
+                  {medicineContentDetail?.nama_kategori}
                 </Heading>
               </VStack>
               <VStack space={1} mt={3}>
                 <Heading size="sm" color="dark.400">
-                  Tanggal Kadaluarsa
+                  Jenis Golongan
                 </Heading>
                 <Heading
                   size="md"
@@ -69,7 +109,21 @@ const MedicineDetailScreen = ({ navigation }) => {
                   color="dark.300"
                   style={{ fontWeight: "bold" }}
                 >
-                  9089089089080
+                  {medicineContentDetail?.nama_golongan}
+                </Heading>
+              </VStack>
+              <VStack space={1} mt={3}>
+                <Heading size="sm" color="dark.400">
+                  Deskripsi
+                </Heading>
+                <Heading
+                  size="md"
+                  width={hp("45%")}
+                  mb={2}
+                  color="dark.300"
+                  style={{ fontWeight: "bold" }}
+                >
+                  {medicineContentDetail?.deskripsi}
                 </Heading>
               </VStack>
             </View>
@@ -79,8 +133,6 @@ const MedicineDetailScreen = ({ navigation }) => {
     </SafeAreaView>
   );
 };
-
-export default MedicineDetailScreen;
 
 const styles = StyleSheet.create({
   container: {
@@ -111,3 +163,16 @@ const styles = StyleSheet.create({
     },
   },
 });
+
+const mapStateToProps = ({ common, medicine }) => {
+  const { loading } = common;
+  const { medicineContentDetail } = medicine;
+  return {
+    loading,
+    medicineContentDetail,
+  };
+};
+
+export default connect(mapStateToProps, {
+  getMedicineContentDetail,
+})(MedicineDetailScreen);

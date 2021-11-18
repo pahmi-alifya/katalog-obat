@@ -1,9 +1,17 @@
-import { Avatar, VStack, View, Heading } from "native-base";
+import {
+  Avatar,
+  VStack,
+  View,
+  Heading,
+  Modal,
+  HStack,
+  Spinner,
+} from "native-base";
 import React, { useLayoutEffect } from "react";
 import { SafeAreaView, StyleSheet, TouchableOpacity } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import { heightPercentageToDP as hp } from "react-native-responsive-screen";
-import { connect } from "react-redux";
+import { connect, useSelector } from "react-redux";
 import { Colors } from "../constants/style";
 import { postLogout } from "../redux/actions/user";
 
@@ -21,24 +29,41 @@ const ProfileScreen = ({ navigation, loading, postLogout }) => {
     });
   }, [navigation]);
 
+  const dataUser = useSelector((state) => state.user?.user);
+
   const signOut = () => {
-    console.log("test2");
     alert("Logout Berhasil!");
     postLogout();
     // navigation.navigate("Login");
   };
+
+  if (loading) {
+    return (
+      <Modal isOpen={loading}>
+        <Modal.Content maxWidth="150px">
+          <Modal.Body>
+            <HStack space={2} alignSelf="center">
+              <Spinner accessibilityLabel="Loading posts" />
+              <Heading color="primary.500" fontSize="md">
+                Loading
+              </Heading>
+            </HStack>
+          </Modal.Body>
+        </Modal.Content>
+      </Modal>
+    );
+  }
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.image}>
         <Avatar
-          bg="cyan.500"
           size="xl"
           shadow="9"
           source={{
-            uri: "https://pbs.twimg.com/profile_images/1309797238651060226/18cm6VhQ_400x400.jpg",
+            uri: dataUser?.photo,
           }}
         >
-          GG
+          Foto
         </Avatar>
         <View style={styles.biodata}>
           <View
@@ -58,12 +83,12 @@ const ProfileScreen = ({ navigation, loading, postLogout }) => {
                 color="dark.300"
                 style={{ fontWeight: "bold" }}
               >
-                Admin
+                {dataUser?.nama_user}
               </Heading>
             </VStack>
             <VStack space={1} mt={3}>
               <Heading size="sm" color="dark.400">
-                Email
+                Usernane
               </Heading>
               <Heading
                 size="md"
@@ -71,20 +96,7 @@ const ProfileScreen = ({ navigation, loading, postLogout }) => {
                 color="dark.300"
                 style={{ fontWeight: "bold" }}
               >
-                Admin
-              </Heading>
-            </VStack>
-            <VStack space={1} mt={3}>
-              <Heading size="sm" color="dark.400">
-                No Hp
-              </Heading>
-              <Heading
-                size="md"
-                mb={2}
-                color="dark.300"
-                style={{ fontWeight: "bold" }}
-              >
-                9089089089080
+                {dataUser?.username}
               </Heading>
             </VStack>
           </View>

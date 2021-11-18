@@ -54,12 +54,20 @@ const LoginScreen = ({ navigation, loading, postLogin }) => {
           <Image source={Logo} alt="Logo" size="xl" />
         </View>
         <Heading
-          size="lg"
+          fontSize="20"
           mt={2}
           color={Colors.textPrimary}
-          style={{ letterSpacing: 2, fontWeight: "bold" }}
+          style={{ textAlign: "center", fontWeight: "bold" }}
         >
-          MASUK
+          SELAMAT DATANG
+        </Heading>
+        <Heading
+          fontSize="18"
+          mt={1}
+          color={Colors.secondary}
+          style={{ textAlign: "center", fontWeight: "bold" }}
+        >
+          Silahkan login terlebih dahulu
         </Heading>
         <VStack space={2} mt={5} style={styles.form}>
           <FormControl>
