@@ -36,7 +36,8 @@ export const getMedicineSubCategory = (params) => (dispatch) => {
     .post("sub-kategori", params)
     .then(({ data }) => {
       dispatch({ type: commonActionTypes.HIEDE_LOADING });
-      if (data?.data && data?.data?.length > 0) {
+      console.log(data);
+      if (data) {
         dispatch({
           type: medicineActionTypes.MEDICINE_SUB_CATEGORY,
           payload: data,
@@ -75,7 +76,7 @@ export const getMedicineSubCategoryContent = (params) => (dispatch) => {
 export const getMedicineContent = (params) => (dispatch) => {
   dispatch({ type: commonActionTypes.LOADING });
   api
-    .post(`konten/${params?.id}`, params)
+    .post("konten", params)
     .then(({ data }) => {
       dispatch({ type: commonActionTypes.HIEDE_LOADING });
       if (data?.data && data?.data?.length > 0) {
@@ -89,17 +90,17 @@ export const getMedicineContent = (params) => (dispatch) => {
     })
     .catch((error) => {
       dispatch({ type: commonActionTypes.HIEDE_LOADING });
-      alert(error);
+      alert("errornya disini");
     });
 };
 
 export const getMedicineContentDetail = (id) => (dispatch) => {
   dispatch({ type: commonActionTypes.LOADING });
   api
-    .post(`konten/${id}`)
+    .post(`detail/${id}`)
     .then(({ data }) => {
       dispatch({ type: commonActionTypes.HIEDE_LOADING });
-      if (data?.data && data?.data?.length > 0) {
+      if (data) {
         dispatch({
           type: medicineActionTypes.MEDICINE_CONTENT_DETAIL,
           payload: data,

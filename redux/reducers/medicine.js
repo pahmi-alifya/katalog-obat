@@ -5,7 +5,7 @@ const initialState = {
   medicineSubCategory: [],
   medicineSubCategoryContent: [],
   medicineContent: [],
-  medicineContentDetail: [],
+  medicineContentDetail: null,
 };
 
 export default (state = initialState, action) => {
@@ -21,6 +21,7 @@ export default (state = initialState, action) => {
       const response = action.payload.data;
       return {
         ...state,
+        medicineContent: [],
         medicineSubCategory: response,
       };
     }
@@ -28,13 +29,14 @@ export default (state = initialState, action) => {
       const response = action.payload.data;
       return {
         ...state,
-        medicineSubCategoryContent: response,
+        medicineContent: response,
       };
     }
     case medicineActionTypes.MEDICINE_CONTENT: {
       const response = action.payload.data;
       return {
         ...state,
+        medicineSubCategory: [],
         medicineContent: response,
       };
     }
