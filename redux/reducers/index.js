@@ -1,12 +1,8 @@
 import { combineReducers } from "redux";
 import common from "./common";
-import user from "./user";
-import medicine from "./medicine";
 
 const rootReducers = combineReducers({
   common,
-  user,
-  medicine,
 });
 
 // const rootReducers = (state, action) => {
