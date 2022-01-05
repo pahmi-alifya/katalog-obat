@@ -4,7 +4,6 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import HomeScreen from "../screens/HomeScreen";
 import LoginScreen from "../screens/LoginScreen";
 import MedicineDetailScreen from "../screens/MedicineDetailScreen";
-import MedicineGroupScreen from "../screens/MedicineGroupScreen";
 import ProfileScreen from "../screens/ProfileScreen";
 import { useSelector } from "react-redux";
 import RegistrationScreen from "../screens/RegistrationScreen";
@@ -14,6 +13,9 @@ import RegistrationScreen from "../screens/RegistrationScreen";
 const RootStack = createNativeStackNavigator();
 
 const StackNavigator = () => {
+  const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
+  const user = useSelector((state) => state.user);
+
   return (
     <RootStack.Navigator headerMode="none" initialRouteName="Login">
       {isLoggedIn && user && user?.data !== "" ? (
@@ -25,10 +27,6 @@ const StackNavigator = () => {
           />
           <RootStack.Screen name="Profile" component={ProfileScreen} />
           <RootStack.Screen name="Content" component={ContentScreen} />
-          <RootStack.Screen
-            name="MedicineGroup"
-            component={MedicineGroupScreen}
-          />
           <RootStack.Screen
             name="MedicineDetail"
             component={MedicineDetailScreen}
