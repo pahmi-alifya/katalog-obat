@@ -184,11 +184,11 @@ const HomeScreen = ({
               numColumns={2}
               data={medicineContent}
               refreshing={loading}
-              ListEmptyComponent={() => (
-                <Heading size="md" textAlign="center" mt={3}>
-                  Data tidak ada
-                </Heading>
-              )}
+              // ListEmptyComponent={() => (
+              //   <Heading size="md" textAlign="center" mt={3}>
+              //     Data tidak ada
+              //   </Heading>
+              // )}
               keyExtractor={(item) => item?.id_obat}
               renderItem={({ item, index }) => {
                 if (loading) {
@@ -274,11 +274,10 @@ const HomeScreen = ({
                           }}
                           position="absolute"
                           bottom="0"
-                          px="3"
-                          py="1.5"
-                        >
-                          {item?.nama_kategori}
-                        </Center>
+                          px="7"
+                          py="2.5"
+                          borderRightRadius={5}
+                        ></Center>
                       </Box>
                       <Stack p="4" space={3}>
                         <Stack space={2}>

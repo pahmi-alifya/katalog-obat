@@ -54,6 +54,7 @@ const MedicineDetailScreen = ({
       </Modal>
     );
   }
+  console.log(medicineContentDetail);
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.picture}>
@@ -130,6 +131,24 @@ const MedicineDetailScreen = ({
                   {medicineContentDetail?.deskripsi}
                 </Heading>
               </VStack>
+              {(medicineContentDetail?.nama_kategori ===
+                "Obat Bebas Terbatas" ||
+                medicineContentDetail?.nama_kategori === "Obat Keras") && (
+                <VStack space={1} mt={3}>
+                  <Heading size="sm" color="dark.400">
+                    Keterangan
+                  </Heading>
+                  <Heading
+                    size="md"
+                    width={hp("45%")}
+                    mb={2}
+                    color="dark.300"
+                    style={{ fontWeight: "bold" }}
+                  >
+                    Menggunakan Resep Dokter
+                  </Heading>
+                </VStack>
+              )}
             </View>
           </ScrollView>
         </View>

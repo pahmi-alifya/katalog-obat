@@ -19,10 +19,10 @@ import { FontAwesome5 } from "@expo/vector-icons";
 import { Colors } from "../constants/style";
 import Logo from "../assets/icon.png";
 import { connect } from "react-redux";
-import { postLogin } from "../redux/actions/user";
+import { createUser } from "../redux/actions/user";
 import { ResponseModal } from "../components/ResponseModal";
 
-const LoginScreen = ({ navigation, loading, postLogin }) => {
+const RegistrationScreen = ({ navigation, loading, createUser }) => {
   const [showPassword, setShowPassword] = useState(true);
   const [value, setValue] = useState(null);
   const [showModal, setShowModal] = useState(false);
@@ -32,14 +32,10 @@ const LoginScreen = ({ navigation, loading, postLogin }) => {
     setValue({ ...value, [name]: data });
   };
 
-  const signIn = () => {
-    postLogin(value).then((data) => {
-      if (data.status === true) {
-        alert("Berhasil Login");
-      } else {
-        setData(data);
-        setShowModal(true);
-      }
+  const signInUp = () => {
+    createUser(value).then((data) => {
+      setData(data);
+      setShowModal(true);
     });
   };
 
@@ -48,6 +44,7 @@ const LoginScreen = ({ navigation, loading, postLogin }) => {
       <ResponseModal
         showModal={showModal}
         setShowModal={(value) => setShowModal(value)}
+        linkTo="Login"
         {...data}
       />
       <SafeAreaView style={styles.container}>
@@ -68,9 +65,21 @@ const LoginScreen = ({ navigation, loading, postLogin }) => {
           color={Colors.secondary}
           style={{ textAlign: "center", fontWeight: "bold" }}
         >
-          Silahkan login terlebih dahulu
+          Silahkan melakukann pendaftaran disini
         </Heading>
         <VStack space={2} mt={5} style={styles.form}>
+          <FormControl>
+            <FormControl.Label
+              _text={{ color: "muted.700", fontSize: "sm", fontWeight: 600 }}
+            >
+              Nama
+            </FormControl.Label>
+            <Input
+              autoCapitalize="none"
+              placeholder="Nama"
+              onChangeText={(data) => handleChangeInput(data, "name")}
+            />
+          </FormControl>
           <FormControl>
             <FormControl.Label
               _text={{ color: "muted.700", fontSize: "sm", fontWeight: 600 }}
@@ -113,17 +122,17 @@ const LoginScreen = ({ navigation, loading, postLogin }) => {
           <VStack space={2}>
             <Button
               _text={{ color: "white" }}
-              onPress={signIn}
+              onPress={signInUp}
               isLoading={loading}
               size="md"
               bgColor={Colors.primary}
             >
-              MASUK
+              DAFTAR
             </Button>
           </VStack>
           <HStack justifyContent="center" mt={2}>
             <Text fontSize="sm" color={Colors.primary}>
-              Belum Punya Akun ?{" "}
+              Kembali ke halaman {""}
             </Text>
             <Link
               _text={{
@@ -132,9 +141,9 @@ const LoginScreen = ({ navigation, loading, postLogin }) => {
                 fontSize: "sm",
                 textDecoration: "underline",
               }}
-              onPress={() => navigation.navigate("Register")}
+              onPress={() => navigation.navigate("Login")}
             >
-              Daftar
+              Login
             </Link>
           </HStack>
         </VStack>
@@ -167,5 +176,5 @@ const mapStateToProps = ({ common }) => {
 };
 
 export default connect(mapStateToProps, {
-  postLogin,
-})(LoginScreen);
+  createUser,
+})(RegistrationScreen);

@@ -8,6 +8,7 @@ import MedicineDetailScreen from "../screens/MedicineDetailScreen";
 import MedicineGroupScreen from "../screens/MedicineGroupScreen";
 import ProfileScreen from "../screens/ProfileScreen";
 import { useSelector } from "react-redux";
+import RegistrationScreen from "../screens/RegistrationScreen";
 // import api from "../api";
 // import upload from "../api/upload";
 
@@ -46,11 +47,18 @@ const StackNavigator = () => {
           />
         </>
       ) : (
-        <RootStack.Screen
-          name="Login"
-          component={LoginScreen}
-          options={{ headerShown: false }}
-        />
+        <>
+          <RootStack.Screen
+            name="Login"
+            component={LoginScreen}
+            options={{ headerShown: false }}
+          />
+          <RootStack.Screen
+            name="Register"
+            component={RegistrationScreen}
+            options={{ headerShown: false }}
+          />
+        </>
       )}
     </RootStack.Navigator>
   );

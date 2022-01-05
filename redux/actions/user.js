@@ -32,6 +32,27 @@ export const postLogin = (params) => (dispatch) =>
       });
   });
 
+export const createUser = (params) => (dispatch) =>
+  new Promise(function (resolve, reject) {
+    dispatch({ type: commonActionTypes.LOADING });
+    api
+      .post("daftar", params)
+      .then(({ data }) => {
+        dispatch({ type: commonActionTypes.HIEDE_LOADING });
+        console.log(data);
+        if (data && data?.status === true) {
+          resolve(data);
+        } else {
+          resolve(data);
+        }
+        dispatch({ type: commonActionTypes.HIEDE_LOADING });
+      })
+      .catch(({ message }) => {
+        dispatch({ type: commonActionTypes.HIEDE_LOADING });
+        alert(message);
+      });
+  });
+
 export const getProfile = (params) => (dispatch) =>
   new Promise(function (resolve, reject) {
     dispatch({ type: commonActionTypes.LOADING });
