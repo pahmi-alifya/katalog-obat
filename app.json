@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "katalog Obat",
-    "slug": "katalog-obat",
+    "name": "Pahmi_Apptest",
+    "slug": "Pahmi_Apptest",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -24,7 +24,7 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
       },
-      "package": "com.pahmi1998.katalogobat"
+      "package": "com.pahmi1998.pahmiapptest"
     },
     "web": {
       "favicon": "./assets/favicon.png"

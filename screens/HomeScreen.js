@@ -1,99 +1,7 @@
-import {
-  AspectRatio,
-  Box,
-  Button,
-  Center,
-  Fab,
-  FlatList,
-  Heading,
-  HStack,
-  Icon,
-  Image,
-  Modal,
-  ScrollView,
-  Skeleton,
-  Spinner,
-  Stack,
-  Text,
-  View,
-  VStack,
-} from "native-base";
-import React, { useEffect, useLayoutEffect, useState } from "react";
-import { FontAwesome } from "@expo/vector-icons";
-import { connect } from "react-redux";
-import { SafeAreaView, StyleSheet, TouchableOpacity } from "react-native";
-import { heightPercentageToDP as hp } from "react-native-responsive-screen";
-import Header from "../components/Header";
-import { Colors } from "../constants/style";
-import { useIsFocused } from "@react-navigation/core";
+import React from "react";
+import { StyleSheet, Text, View, SafeAreaView } from "react-native";
 
-import {
-  getMedicineCategory,
-  getMedicineSubCategory,
-  getMedicineSubCategoryContent,
-  getMedicineContent,
-} from "../redux/actions/medicine";
-
-const HomeScreen = ({
-  navigation,
-  route,
-  getMedicineCategory,
-  getMedicineSubCategory,
-  getMedicineSubCategoryContent,
-  getMedicineContent,
-  medicineCategory,
-  medicineSubCategory,
-  medicineSubCategoryContent,
-  medicineContent,
-  loading,
-}) => {
-  const isFocused = useIsFocused();
-  const [active, setActive] = useState(null);
-  const [subCategoryActive, setSubCategoryActive] = useState(null);
-  const [isSearch, setISearch] = useState(false);
-  const [sorting, setSorting] = useState(false);
-
-  useEffect(() => {
-    getMedicineCategory();
-    getMedicineContent();
-    setActive(null);
-  }, [route?.name, navigation]);
-
-  const colorLabel = (color) => {
-    switch (color) {
-      case "green":
-        return Colors.success;
-      case "red":
-        return Colors.danger;
-      case "blue":
-        return Colors.primary;
-      default:
-        return Colors.secondary;
-    }
-  };
-
-  const getContentMedicine = (id) => {
-    setActive(id);
-    if (id == 4) {
-      getMedicineSubCategory({ kategori: id });
-    } else {
-      getMedicineContent({ category: id });
-    }
-  };
-
-  const getSubCategoryContent = (id) => {
-    setSubCategoryActive(id);
-    getMedicineSubCategoryContent({ sub_kategori: id });
-  };
-
-  useEffect(() => {
-    getMedicineContent({
-      search: isSearch,
-      sort: sorting ? "desc" : "asc",
-      category: active,
-    });
-  }, [isSearch, sorting]);
-
+const HomeScreen = () => {
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -323,37 +231,6 @@ const HomeScreen = ({
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    paddingHorizontal: hp("3%"),
-    paddingTop: hp("3%"),
-    marginTop: hp("1%"),
-    justifyContent: "center",
-    backgroundColor: "white",
-  },
-});
+export default HomeScreen;
 
-const mapStateToProps = ({ common, medicine }) => {
-  const { loading } = common;
-  const {
-    medicineCategory,
-    medicineSubCategory,
-    medicineSubCategoryContent,
-    medicineContent,
-  } = medicine;
-  return {
-    loading,
-    medicineCategory,
-    medicineSubCategory,
-    medicineSubCategoryContent,
-    medicineContent,
-  };
-};
-
-export default connect(mapStateToProps, {
-  getMedicineCategory,
-  getMedicineSubCategory,
-  getMedicineSubCategoryContent,
-  getMedicineContent,
-})(HomeScreen);
+const styles = StyleSheet.create({});

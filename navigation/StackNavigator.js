@@ -1,7 +1,6 @@
 import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-import ContentScreen from "../screens/ContentScreen";
 import HomeScreen from "../screens/HomeScreen";
 import LoginScreen from "../screens/LoginScreen";
 import MedicineDetailScreen from "../screens/MedicineDetailScreen";
@@ -15,17 +14,6 @@ import RegistrationScreen from "../screens/RegistrationScreen";
 const RootStack = createNativeStackNavigator();
 
 const StackNavigator = () => {
-  const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
-  const user = useSelector((state) => state.user);
-
-  // if (isLoggedIn) {
-  //   api.defaults.headers.common = {
-  //     Authorization: `Bearer ${isLoggedIn}`,
-  //   };
-  //   upload.defaults.headers.common = {
-  //     Authorization: `Bearer ${isLoggedIn}`,
-  //   };
-  // }
   return (
     <RootStack.Navigator headerMode="none" initialRouteName="Login">
       {isLoggedIn && user && user?.data !== "" ? (
